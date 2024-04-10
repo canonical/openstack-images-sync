@@ -23,6 +23,7 @@ import simplestreams.objectstores as sstream_objectstores
 import simplestreams.util as sstream_util
 
 from openstack_images_sync.core import config, logging
+from openstack_images_sync.sync import mirror as sync_mirror
 
 KEYRING = "/usr/share/keyrings/ubuntu-cloudimage-keyring.gpg"
 
@@ -149,7 +150,7 @@ class SimpleStreamsSynchronizer:
                     "Fetched images to sync: %s",
                     ", ".join(drmirror.items.keys()) or "no images to sync",
                 )
-                tmirror = sstream_glance.GlanceMirror(
+                tmirror = sync_mirror.OISGlanceMirror(
                     config=mirror_config,
                     objectstore=tstore,
                     region=region,
