@@ -48,12 +48,6 @@ class LogConfig(pydantic.BaseModel):
     }
 
 
-class Frequency(str, enum.Enum):
-    HOURLY = "hourly"
-    DAILY = "daily"
-    WEEKLY = "weekly"
-
-
 class Visibility(str, enum.Enum):
     PUBLIC = "public"
     PRIVATE = "private"
@@ -138,8 +132,8 @@ class Settings(pydantic_settings.BaseSettings):
     )
     name_prefix: str = "auto-sync/"
 
-    frequency: Frequency = pydantic.Field(
-        default=Frequency.HOURLY, description="Frequency of sync"
+    frequency: pydantic.PositiveInt = pydantic.Field(
+        default=3600, description="Frequency of sync"
     )
 
     logging: LogConfig = LogConfig()

@@ -92,18 +92,11 @@ class SimpleStreamsSynchronizer:
                 self.sync_mirrors()
             except Exception as e:
                 self.logger.error("Error during synchronization: %s", e, exc_info=True)
-            match self.settings.frequency:
-                case config.Frequency.HOURLY:
-                    frequency = 3600
-                case config.Frequency.DAILY:
-                    frequency = 86400
-                case config.Frequency.WEEKLY:
-                    frequency = 604800
-                case _:
-                    frequency = 3600
-            next_run = datetime.datetime.now() + datetime.timedelta(seconds=frequency)
+            next_run = datetime.datetime.now() + datetime.timedelta(
+                seconds=self.settings.frequency
+            )
             self.logger.info("Next synchronization: %s", next_run)
-            time.sleep(frequency)
+            time.sleep(self.settings.frequency)
 
     def sync_mirrors(self):
         settings = self.settings
